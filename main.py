@@ -1,5 +1,14 @@
 letters = {"A":0, "B":1, "C":2,"D":3,"E":4}
 
+def celulasDisponiveis():
+	m = []
+	for i in range(10):
+		for j in range(10):
+			m.append([i,j])
+	return m
+
+celulas = celulasDisponiveis()
+print(celulas)
 
 def gerarTabuleiro():
 	'''
