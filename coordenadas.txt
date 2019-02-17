@@ -1,0 +1,14 @@
+Coordenadas para o jogador: Messi
+Submarinos
+[[[5, 1], [5, 0]]]
+Cruzadores: 
+[]
+Porta avioes: 
+[]
+Coordenadas para o jogador: Ronaldo
+Submarinos
+[[[5, 6], [5, 5]]]
+Cruzadores: 
+[]
+Porta avioes: 
+[]

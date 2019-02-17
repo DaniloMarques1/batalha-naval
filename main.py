@@ -21,13 +21,31 @@ def main():
 	print("#" * 10)
 	#gerando submarinos primeiro player
 	celulasDisponiveis(celulas1, tabuleiro1)
-	gerarTabuleiro(celulas1, tabuleiro1, submarinos1, cruzadores1, porta_avioes1)		
-	#pegando coordenadas (tiros) do usuario
+	gerarTabuleiro(celulas1, tabuleiro1, submarinos1, cruzadores1, porta_avioes1)
 	
 	#gerar navios segundo player
 	player2 = input("Nome do segundo jogador: ")
 	celulasDisponiveis(celulas2, tabuleiro2)
 	gerarTabuleiro(celulas2, tabuleiro2, submarinos2, cruzadores2, porta_avioes2)
+	
+	#gerando fila player 1
+	file = open("coordenadas.txt", "w")
+	file.write("Coordenadas dos navios do jogador: {}\n".format(player1))
+	file.write("Submarinos\n")
+	file.write("{}\n".format(str(submarinos1)))
+	file.write("Cruzadores: \n")
+	file.write("{}\n".format(str(cruzadores1)))
+	file.write("Porta avioes: \n")
+	file.write("{}\n".format(str(porta_avioes1)))
+	#gerando fila player 2
+	file.write("Coordenadas dos navios do jogador: {}\n".format(player2))
+	file.write("Submarinos\n")
+	file.write("{}\n".format(str(submarinos2)))
+	file.write("Cruzadores: \n")
+	file.write("{}\n".format(str(cruzadores2)))
+	file.write("Porta avioes: \n")
+	file.write("{}\n".format(str(porta_avioes2)))
+	file.close()
 	#Continuar jogando até acabar os submarinos
 	while True:
 		if submarinos1 or submarinos2 or cruzadores1 or cruzadores2 or porta_avioes1 or porta_avioes2:
@@ -93,9 +111,9 @@ def celulasDisponiveis(celulas,tabuleiro):
 	'''
 	gera todas as celulas disponiveis
 	'''	
-	for i in range(4):
+	for i in range(10):
 		linha = []
-		for j in range(4):
+		for j in range(10):
 			celulas.append([i,j])
 			linha.append("-")
 		tabuleiro.append(linha)
@@ -213,10 +231,10 @@ def exibirTabuleiros(tabuleiro):
 		print(f"{i}  ",end="")
 	print()
 	letter = 65	
-	for i in range(4):
+	for i in range(10):
 		print(f"{chr(letter)} ",end="")
 		letter += 1
-		for j in range(4):			
+		for j in range(10):			
 			print(f'{tabuleiro[i][j]:3}', end="")
 		print()
 	print("#" * 12)	
@@ -371,6 +389,7 @@ def porta_aviao(celulas):
 	import random
 	cel = []
 	index = random.randint(0, len(celulas) - 1)
+	#primeira posição gerada aleatoriamente, a partir dela gerar outras
 	firstPosition = celulas[index]
 	celulas.remove(firstPosition)
 	horizontal = 0
