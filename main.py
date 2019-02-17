@@ -22,39 +22,83 @@ def main():
 	#gerando submarinos primeiro player
 	celulasDisponiveis(celulas1, tabuleiro1)
 	gerarTabuleiro(celulas1, tabuleiro1, submarinos1, cruzadores1, porta_avioes1)		
-	exibirTabuleiros(tabuleiro1)
 	#pegando coordenadas (tiros) do usuario
-	play(tabuleiro1, submarinos1, cruzadores1, porta_avioes1)
-def play(tabuleiro, submarinos, cruzadores, porta_avioes):
+	
+	#gerar navios segundo player
+	player2 = input("Nome do segundo jogador: ")
+	celulasDisponiveis(celulas2, tabuleiro2)
+	gerarTabuleiro(celulas2, tabuleiro2, submarinos2, cruzadores2, porta_avioes2)
+	#Continuar jogando até acabar os submarinos
 	while True:
-		linha = letters[input("Linha: ")]
-		coluna = int(input("Coluna: ")) - 1
+		if submarinos1 or submarinos2 or cruzadores1 or cruzadores2 or porta_avioes1 or porta_avioes2:
+			if play(player2,tabuleiro1, submarinos1, cruzadores1, porta_avioes1) == 1:
+				print("-" * 10)
+				print("{} VENCEU O GAME".format(player2))
+				print("-" * 10)
+				break
+			if play(player1,tabuleiro2, submarinos2, cruzadores2, porta_avioes2) == 1:
+				print("-" * 10)
+				print("{} VENCEU O GAME".format(player1))
+				print("-" * 10)
+				break
+
+def play(player,tabuleiro, submarinos, cruzadores, porta_avioes):
+	while True:
+		print("VEZ DE: ", player)
+		exibirTabuleiros(tabuleiro)
+		while True:
+			linha = input("Linha: ").upper()
+			if linha >= "A" and linha <= "J":
+				linha = letters[linha]
+				break
+		while True:
+			coluna = int(input("Coluna: ")) - 1
+			if coluna >= 0 and coluna <= 9:
+				break
 		coordenada = [linha, coluna]
-		print("Coordenada: ", coordenada)
 		if not coordenada:
 			break
 
-		if hitASubmarino(coordenada, submarinos, tabuleiro):
-			print("HIT SUBMARINO")
-		elif hitACruzador(coordenada, cruzadores, tabuleiro):
-			print("HIT CRUZADOR")
-		elif hitPortaAviao(coordenada, porta_avioes, tabuleiro):
-			print("HIT PORTA AVIAO")	
+		if hitASubmarino(coordenada, submarinos, tabuleiro) or hitACruzador(coordenada, cruzadores, tabuleiro) or hitPortaAviao(coordenada, porta_avioes, tabuleiro):
+			print("FOGO")	
+			if checkWin(submarinos, cruzadores, porta_avioes):	
+				return 1
+				
+		else:
+			print("-" * 10)
+			print("AGUA")
+			print("-" * 10)
+			break
+		
 
-		exibirTabuleiros(tabuleiro)
+def checkWin(submarinos, cruzadores, porta_avioes):
+	'''
+	verifica se todos os navios foram destruidos, caso estejam vazios
+	'''
+	sub = True
+	porta = True
+	cru = True
+	for i in submarinos:
+		if len(i) != 0:
+			sub = False
+	for i in cruzadores:
+		if len(i) != 0:
+			cru = False
+	for i in porta_avioes:
+		if len(i) == 0:
+			porta = False
 
-
+	return sub and porta and cru	
 def celulasDisponiveis(celulas,tabuleiro):
 	'''
 	gera todas as celulas disponiveis
 	'''	
-	for i in range(10):
+	for i in range(4):
 		linha = []
-		for j in range(10):
+		for j in range(4):
 			celulas.append([i,j])
 			linha.append("-")
 		tabuleiro.append(linha)
-		print("LEN TABULEIRO: ", len(tabuleiro))
 
 def hitASubmarino(coordenada, submarinos, tabuleiro):
 	'''
@@ -113,7 +157,11 @@ def gerarTabuleiro(celulas, tabuleiro, submarinos, cruzadores, porta_avioes):
 	cruzadores: a matriz que sera preenchida com as coordenadas dos cruzador(es)
 	porta_avioes: a matriz que sera preenchida com as coordenadas dos porta_avioe(s)
 	'''
-	sQtd = int(input("Quantos submarinos deseja? "))
+	while True:
+		sQtd = int(input("Quantos submarinos deseja entre 1 - 3: "))
+		if sQtd >= 1 and sQtd <= 3:
+			break
+
 	for i in range(sQtd):
 		while True:
 			s1 = submarino(celulas)
@@ -124,7 +172,11 @@ def gerarTabuleiro(celulas, tabuleiro, submarinos, cruzadores, porta_avioes):
 			celulasDisponiveis(celulas)
 	print(submarinos)	
 	#gerando os cruzadores
-	cQtd = int(input("Quantos cruzadores: "))
+	
+	while True:
+		cQtd = int(input("Quantos cruzadores: entre 0 - 2: "))
+		if cQtd >= 0 and cQtd <= 2:
+			break
 	for i in range(cQtd):
 		while True:
 			c1 = cruzador(celulas)
@@ -135,8 +187,12 @@ def gerarTabuleiro(celulas, tabuleiro, submarinos, cruzadores, porta_avioes):
 			celulasDisponiveis(celulas, tabuleiro)
 	print(cruzadores)
 
-	#gerando os porta avioes 
-	paQtd = int(input("Qunatos porta avioes: "))
+	#gerando os porta avioes
+
+	while True:
+		paQtd = int(input("Qunatos porta avioes: entre 0 - 1: "))
+		if paQtd >=0 and paQtd <= 1:
+			break
 	for i in range(paQtd):
 		while True:
 			pa = porta_aviao(celulas)
@@ -157,10 +213,10 @@ def exibirTabuleiros(tabuleiro):
 		print(f"{i}  ",end="")
 	print()
 	letter = 65	
-	for i in range(10):
+	for i in range(4):
 		print(f"{chr(letter)} ",end="")
 		letter += 1
-		for j in range(10):			
+		for j in range(4):			
 			print(f'{tabuleiro[i][j]:3}', end="")
 		print()
 	print("#" * 12)	
@@ -406,18 +462,4 @@ def isAvailable(celulas, newPosition):
 	return False
 	
 main()
-
-
-
-
-
-# print(n1)
-# while True:
-# 	c1 = cruzador()
-# 	if c1 != -1:
-# 		break
-# while True:
-# 	pa1 = porta_aviao()
-# 	if pa1 != -1:
-# 		break
 
