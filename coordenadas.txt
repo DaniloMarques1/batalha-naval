@@ -1,13 +1,13 @@
-Coordenadas para o jogador: Messi
+Coordenadas dos navios do jogador: Danilo
 Submarinos
-[[[5, 1], [5, 0]]]
+[[[7, 8], [7, 9]]]
 Cruzadores: 
 []
 Porta avioes: 
 []
-Coordenadas para o jogador: Ronaldo
+Coordenadas dos navios do jogador: D
 Submarinos
-[[[5, 6], [5, 5]]]
+[[[3, 8], [3, 9]]]
 Cruzadores: 
 []
 Porta avioes: 

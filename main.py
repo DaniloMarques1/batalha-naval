@@ -13,6 +13,12 @@ tabuleiro2 = []
 submarinos2 = []
 cruzadores2 = []
 porta_avioes2 = []
+print("Jogar como: ")
+print("1- Professor (poderá visualizar as frotas")
+print("2- Diversão")
+#forma de jogar
+modo = input()
+
 def main():
 	#JOGADORES
 	player1 = input("Nome do primeiro jogador: ")
@@ -28,6 +34,7 @@ def main():
 	celulasDisponiveis(celulas2, tabuleiro2)
 	gerarTabuleiro(celulas2, tabuleiro2, submarinos2, cruzadores2, porta_avioes2)
 	
+
 	#gerando fila player 1
 	file = open("coordenadas.txt", "w")
 	file.write("Coordenadas dos navios do jogador: {}\n".format(player1))
@@ -46,6 +53,7 @@ def main():
 	file.write("Porta avioes: \n")
 	file.write("{}\n".format(str(porta_avioes2)))
 	file.close()
+	print(tabuleiro1)
 	#Continuar jogando até acabar os submarinos
 	while True:
 		if submarinos1 or submarinos2 or cruzadores1 or cruzadores2 or porta_avioes1 or porta_avioes2:
@@ -78,7 +86,9 @@ def play(player,tabuleiro, submarinos, cruzadores, porta_avioes):
 			break
 
 		if hitASubmarino(coordenada, submarinos, tabuleiro) or hitACruzador(coordenada, cruzadores, tabuleiro) or hitPortaAviao(coordenada, porta_avioes, tabuleiro):
-			print("FOGO")	
+			print("-" * 10)
+			print("FOGO")
+			print("-" * 10)	
 			if checkWin(submarinos, cruzadores, porta_avioes):	
 				return 1
 				
@@ -133,6 +143,10 @@ def hitASubmarino(coordenada, submarinos, tabuleiro):
 			if len(i) == 0:
 				print("Destruiu submarino")
 			return True
+		else:
+			print("Opa")
+			linha, coluna = coordenada[0], coordenada[1]	
+			tabuleiro[linha][coluna] = "*"
 	return False
 				
 def hitACruzador(coordenada, cruzadores, tabuleiro):
@@ -143,12 +157,15 @@ def hitACruzador(coordenada, cruzadores, tabuleiro):
 	'''
 	for i in cruzadores:
 		if coordenada in i:
-			linha, coluna = coordenada[0], coordenada[1]
 			tabuleiro[linha][coluna] = "C"
 			i.remove(coordenada)
 			if len(i) == 0:
 				print("Destruiu cruzador")
 			return True	
+		else:
+			print("Opa")
+			linha, coluna = coordenada[0], coordenada[1]	
+			tabuleiro[linha][coluna] = "*"
 	return False
 
 def hitPortaAviao(coordenada, porta_avioes, tabuleiro):
@@ -165,6 +182,10 @@ def hitPortaAviao(coordenada, porta_avioes, tabuleiro):
 			if len(i) == 0:
 				print("Destruiu porta aviao")
 			return True
+		else:
+			print("Opa")
+			linha, coluna = coordenada[0], coordenada[1]	
+			tabuleiro[linha][coluna] = "*"	
 	return False			
 
 def gerarTabuleiro(celulas, tabuleiro, submarinos, cruzadores, porta_avioes):
@@ -220,6 +241,9 @@ def gerarTabuleiro(celulas, tabuleiro, submarinos, cruzadores, porta_avioes):
 			#caso tenha removido alguma celula mas não tenha sido possivel formar um navio, resetar as celulas disponiveis	
 			celulasDisponiveis(celulas, tabuleiro)
 	print(porta_avioes)
+def gerarTabuleiroWithShips(tabuleiro):
+	'''
+	'''
 
 def exibirTabuleiros(tabuleiro):
 	'''
