@@ -1,40 +1,48 @@
 #Constantes
 letters = {"A":0, "B":1, "C":2,"D":3,"E":4, "F":5, "G":6,"H":7,"I":8,"J":9}
 #primeiro player
+player1 = ""
 celulas1 = []
 tabuleiro1 = []
 submarinos1 = []
 cruzadores1 = []
 porta_avioes1 = []
 
+#tabuleiro com navios
+newtab = []
+
 #segundo jogador
+player2 = ""
 celulas2 = []
 tabuleiro2 = []
 submarinos2 = []
 cruzadores2 = []
 porta_avioes2 = []
-print("Jogar como: ")
-print("1- Professor (poderá visualizar as frotas")
-print("2- Diversão")
-#forma de jogar
-modo = input()
 
 def main():
-	#JOGADORES
-	player1 = input("Nome do primeiro jogador: ")
-	print("#" * 10)
-	print("Gerando tabuleiros")
-	print("#" * 10)
-	#gerando submarinos primeiro player
-	celulasDisponiveis(celulas1, tabuleiro1)
-	gerarTabuleiro(celulas1, tabuleiro1, submarinos1, cruzadores1, porta_avioes1)
-	
-	#gerar navios segundo player
-	player2 = input("Nome do segundo jogador: ")
-	celulasDisponiveis(celulas2, tabuleiro2)
-	gerarTabuleiro(celulas2, tabuleiro2, submarinos2, cruzadores2, porta_avioes2)
-	
-
+	print(" " * 10)
+	print(" " * 12, "1-Recuperar jogo")
+	print(" " * 12, "2-Iniciar jogo")	
+	variavel = input("")
+	if variavel == "1":
+		recuperar()
+	else: 
+		#JOGADORES
+		global player1
+		player1 = input("Nome do primeiro jogador: ")
+		print("#" * 10)
+		print("Gerando tabuleiros")
+		print("#" * 10)
+		#gerando submarinos primeiro player
+		celulasDisponiveis(celulas1, tabuleiro1)
+		gerarTabuleiro(celulas1, tabuleiro1, submarinos1, cruzadores1, porta_avioes1)    
+		#gerar navios segundo player
+		global player2
+		player2 = input("Nome do segundo jogador: ")
+		celulasDisponiveis(celulas2, tabuleiro2)
+		gerarTabuleiro(celulas2, tabuleiro2, submarinos2, cruzadores2, porta_avioes2)
+        
+	print(submarinos1)
 	#gerando fila player 1
 	file = open("coordenadas.txt", "w")
 	file.write("Coordenadas dos navios do jogador: {}\n".format(player1))
@@ -53,34 +61,103 @@ def main():
 	file.write("Porta avioes: \n")
 	file.write("{}\n".format(str(porta_avioes2)))
 	file.close()
-	print(tabuleiro1)
 	#Continuar jogando até acabar os submarinos
 	while True:
 		if submarinos1 or submarinos2 or cruzadores1 or cruzadores2 or porta_avioes1 or porta_avioes2:
-			if play(player2,tabuleiro1, submarinos1, cruzadores1, porta_avioes1) == 1:
-				print("-" * 10)
-				print("{} VENCEU O GAME".format(player2))
-				print("-" * 10)
-				break
-			if play(player1,tabuleiro2, submarinos2, cruzadores2, porta_avioes2) == 1:
-				print("-" * 10)
-				print("{} VENCEU O GAME".format(player1))
-				print("-" * 10)
-				break
+		    if play(player2,tabuleiro1, submarinos1, cruzadores1, porta_avioes1) == 1:
+			    print("-" * 10)
+			    print("{} VENCEU O GAME".format(player2))
+			    print("-" * 10)
+			    break
+		    if play(player1,tabuleiro2, submarinos2, cruzadores2, porta_avioes2) == 1:
+			    print("-" * 10)
+			    print("{} VENCEU O GAME".format(player1))
+			    print("-" * 10)
+			    break
 
-def play(player,tabuleiro, submarinos, cruzadores, porta_avioes):
+def sair():
+    import sys
+    print("SALVAR JOGO? ")
+    print("1-SIM")
+    print("2-NÃO")
+    ans = input(":")
+    if ans == '1':
+        salvar()
+    sys.exit()    
+
+def salvar():
+	file1 = open("saves/player1.txt", "w")
+	file2 = open("saves/player2.txt", "w")
+
+	file1.write(f'{player1}\n')
+	file1.write(f'{(celulas1)}\n')
+	file1.write(f'{(tabuleiro1)}\n')
+	file1.write(f'{(submarinos1)}\n')
+	file1.write(f'{(cruzadores1)}\n')
+	file1.write(f'{(porta_avioes1)}')
+
+	file1.close()
+
+	file2.write(f'{player2}\n')
+	file2.write(f'{(celulas2)}\n')
+	file2.write(f'{(tabuleiro2)}\n')
+	file2.write(f'{(submarinos2)}\n')
+	file2.write(f'{(cruzadores2)}\n')
+	file2.write(f'{(porta_avioes2)}')	
+
+	file2.close()
+def recuperar():
+	import ast
+	file1 = open("saves/player1.txt", "r")
+	player1_values = file1.read().split("\n")
+	#player1_values = ast.literal_eval(player1_values)
+	global player1, celulas1, tabuleiro1, submarinos1, cruzadores1, porta_avioes1,player2, celulas2, tabuleiro2, submarinos2, cruzadores2, porta_avioes2 
+	player1, celulas1, tabuleiro1, submarinos1, cruzadores1, porta_avioes1 = player1_values
+	
+	celulas1 = ast.literal_eval(celulas1)
+	tabuleiro1 = ast.literal_eval(tabuleiro1)
+	submarinos1 = ast.literal_eval(submarinos1)
+	cruzadores1 = ast.literal_eval(cruzadores1)
+	porta_avioes1 = ast.literal_eval(porta_avioes1)
+	
+	file1.close()
+
+	file2 = open("saves/player2.txt","r")
+	player2_values = file2.read().split("\n")
+	player2, celulas2, tabuleiro2, submarinos2, cruzadores2, porta_avioes2 = player2_values
+	celulas2 = ast.literal_eval(celulas2)
+	tabuleiro2 = ast.literal_eval(tabuleiro2)
+	submarinos2 = ast.literal_eval(submarinos2)
+	cruzadores2 = ast.literal_eval(cruzadores2)
+	porta_avioes2 = ast.literal_eval(porta_avioes2)
+	
+
+	file2.close()
+
+def play(player,tabuleiro, submarinos, cruzadores, porta_avioes):   
 	while True:
 		print("VEZ DE: ", player)
 		exibirTabuleiros(tabuleiro)
 		while True:
-			linha = input("Linha: ").upper()
+			linha = input("Linha: (-1 para sair ou -2 para exibir as frotas)  ").upper()
 			if linha >= "A" and linha <= "J":
 				linha = letters[linha]
 				break
+			if linha == '-1':
+				sair() 
+			elif linha == "-2":
+				print("Opa")
+				newTab = tabuleiro[:]
+				gerarTabuleiroWithShips(newTab, submarinos,cruzadores,porta_avioes)	   
 		while True:
-			coluna = int(input("Coluna: ")) - 1
+			coluna = int(input("Coluna: (-1 para sair ou -2 para exibir as frotas)  ")) - 1
 			if coluna >= 0 and coluna <= 9:
 				break
+			if coluna == -1:
+				sair()
+			elif coluna == -2:
+				newTab = tabuleiro[:]
+				gerarTabuleiroWithShips(newTab,submarinos,cruzadores,porta_avioes)	
 		coordenada = [linha, coluna]
 		if not coordenada:
 			break
@@ -157,6 +234,7 @@ def hitACruzador(coordenada, cruzadores, tabuleiro):
 	'''
 	for i in cruzadores:
 		if coordenada in i:
+			linha, coluna = coordenada
 			tabuleiro[linha][coluna] = "C"
 			i.remove(coordenada)
 			if len(i) == 0:
@@ -241,15 +319,29 @@ def gerarTabuleiro(celulas, tabuleiro, submarinos, cruzadores, porta_avioes):
 			#caso tenha removido alguma celula mas não tenha sido possivel formar um navio, resetar as celulas disponiveis	
 			celulasDisponiveis(celulas, tabuleiro)
 	print(porta_avioes)
-def gerarTabuleiroWithShips(tabuleiro):
+def gerarTabuleiroWithShips(newTab,submarinos,cruzadores,porta_avioes):
 	'''
 	'''
+	for i in submarinos:
+		for coordenada in i:
+			linha, coluna = coordenada
+			newTab[linha][coluna] = "S"
 
+	for i in cruzadores:
+		for coordenada in i:
+			linha,coluna = coordenada
+			newTab[linha][coluna] = "C"
+
+	for i in porta_avioes:
+		for coordenada in i:
+			linha,coluna = coordenada
+			newTab[linha][coluna] = "P"
+	exibirTabuleiros(newTab)
 def exibirTabuleiros(tabuleiro):
 	'''
 	Gera uma visualização do tabuleiro
 	'''
-	print("#" * 12)
+	print("=" * 32)
 	print("* ", end="")
 	for i in range(1, 11):
 		print(f"{i}  ",end="")
@@ -261,7 +353,7 @@ def exibirTabuleiros(tabuleiro):
 		for j in range(10):			
 			print(f'{tabuleiro[i][j]:3}', end="")
 		print()
-	print("#" * 12)	
+	print("=" * 32)	
 def direita(celulas,position, n):
 	'''
 	celulas: celulas disponiveis para geração do navio
@@ -505,4 +597,3 @@ def isAvailable(celulas, newPosition):
 	return False
 	
 main()
-
