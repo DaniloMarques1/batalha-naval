@@ -1,13 +1,13 @@
 Coordenadas dos navios do jogador: Danilo
 Submarinos
-[[[7, 8], [7, 9]]]
+[[[6, 8], [6, 7]]]
 Cruzadores: 
 []
 Porta avioes: 
 []
-Coordenadas dos navios do jogador: D
+Coordenadas dos navios do jogador: G
 Submarinos
-[[[3, 8], [3, 9]]]
+[[[7, 8], [7, 7]]]
 Cruzadores: 
 []
 Porta avioes: 
