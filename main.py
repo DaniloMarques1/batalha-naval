@@ -8,6 +8,11 @@ submarinos1 = []
 cruzadores1 = []
 porta_avioes1 = []
 
+<<<<<<< HEAD
+=======
+#tabuleiro com navios
+newtab = []
+>>>>>>> 2d76e86c70db98bb2e6bab3e221e14f3a5ba5a50
 
 #segundo jogador
 player2 = ""
@@ -21,8 +26,11 @@ def main():
 	print(" " * 10)
 	print(" " * 12, "1-Recuperar jogo")
 	print(" " * 12, "2-Iniciar jogo")	
+<<<<<<< HEAD
 	
 	
+=======
+>>>>>>> 2d76e86c70db98bb2e6bab3e221e14f3a5ba5a50
 	variavel = input("")
 	if variavel == "1":
 		recuperar()
@@ -40,7 +48,12 @@ def main():
 		global player2
 		player2 = input("Nome do segundo jogador: ")
 		celulasDisponiveis(celulas2, tabuleiro2)
+<<<<<<< HEAD
 		gerarTabuleiro(celulas2, tabuleiro2, submarinos2, cruzadores2, porta_avioes2)        
+=======
+		gerarTabuleiro(celulas2, tabuleiro2, submarinos2, cruzadores2, porta_avioes2)
+        
+>>>>>>> 2d76e86c70db98bb2e6bab3e221e14f3a5ba5a50
 	print(submarinos1)
 	#gerando fila player 1
 	file = open("coordenadas.txt", "w")
@@ -73,7 +86,11 @@ def main():
 			    print("{} VENCEU O GAME".format(player1))
 			    print("-" * 10)
 			    break
+<<<<<<< HEAD
 		
+=======
+
+>>>>>>> 2d76e86c70db98bb2e6bab3e221e14f3a5ba5a50
 def sair():
     import sys
     print("SALVAR JOGO? ")
@@ -103,6 +120,7 @@ def salvar():
 	file2.write(f'{(submarinos2)}\n')
 	file2.write(f'{(cruzadores2)}\n')
 	file2.write(f'{(porta_avioes2)}')	
+<<<<<<< HEAD
 
 	file2.close()
 def recuperar():
@@ -110,6 +128,25 @@ def recuperar():
 	file1 = open("saves/player1.txt", "r")
 	player1_values = file1.read().split("\n")
 	
+	#player1_values = ast.literal_eval(player1_values)
+	global player1, celulas1, tabuleiro1, submarinos1, cruzadores1, porta_avioes1,player2, celulas2, tabuleiro2, submarinos2, cruzadores2, porta_avioes2 
+	player1, celulas1, tabuleiro1, submarinos1, cruzadores1, porta_avioes1 = player1_values
+	
+	celulas1 = ast.literal_eval(celulas1)
+	tabuleiro1 = ast.literal_eval(tabuleiro1)
+	submarinos1 = ast.literal_eval(submarinos1)
+	cruzadores1 = ast.literal_eval(cruzadores1)
+	porta_avioes1 = ast.literal_eval(porta_avioes1)
+	
+	file1.close()
+
+=======
+
+	file2.close()
+def recuperar():
+	import ast
+	file1 = open("saves/player1.txt", "r")
+	player1_values = file1.read().split("\n")
 	#player1_values = ast.literal_eval(player1_values)
 	global player1, celulas1, tabuleiro1, submarinos1, cruzadores1, porta_avioes1,player2, celulas2, tabuleiro2, submarinos2, cruzadores2, porta_avioes2 
 	player1, celulas1, tabuleiro1, submarinos1, cruzadores1, porta_avioes1 = player1_values
@@ -148,6 +185,8 @@ def play(player,tabuleiro, submarinos, cruzadores, porta_avioes):
 			elif linha == "-2":
 				print("Opa")
 				gerarTabuleiroWithShips(tabuleiro, submarinos,cruzadores,porta_avioes)	   
+
+
 		while True:
 			coluna = int(input("Coluna: (-1 para sair ou -2 para exibir as frotas)  ")) - 1
 			if coluna >= 0 and coluna <= 9:
@@ -156,6 +195,7 @@ def play(player,tabuleiro, submarinos, cruzadores, porta_avioes):
 				sair()
 			elif coluna == -2:
 				gerarTabuleiroWithShips(tabuleiro,submarinos,cruzadores,porta_avioes)	
+
 		coordenada = [linha, coluna]
 		if not coordenada:
 			break
@@ -333,12 +373,17 @@ def gerarTabuleiro(celulas, tabuleiro, submarinos, cruzadores, porta_avioes):
 			#caso tenha removido alguma celula mas não tenha sido possivel formar um navio, resetar as celulas disponiveis	
 			celulasDisponiveis(celulas, tabuleiro)
 	print(porta_avioes)
+<<<<<<< HEAD
 def gerarTabuleiroWithShips(tabuleiro,submarinos,cruzadores,porta_avioes):
+=======
+def gerarTabuleiroWithShips(newTab,submarinos,cruzadores,porta_avioes):
+>>>>>>> 2d76e86c70db98bb2e6bab3e221e14f3a5ba5a50
 	'''
 	'''
 	for i in submarinos:
 		for coordenada in i:
 			linha, coluna = coordenada
+<<<<<<< HEAD
 			tabuleiro[linha][coluna] = "S"
 
 	for i in cruzadores:
@@ -351,6 +396,20 @@ def gerarTabuleiroWithShips(tabuleiro,submarinos,cruzadores,porta_avioes):
 			linha,coluna = coordenada
 			tabuleiro[linha][coluna] = "P"
 	exibirTabuleiros(tabuleiro)
+=======
+			newTab[linha][coluna] = "S"
+
+	for i in cruzadores:
+		for coordenada in i:
+			linha,coluna = coordenada
+			newTab[linha][coluna] = "C"
+
+	for i in porta_avioes:
+		for coordenada in i:
+			linha,coluna = coordenada
+			newTab[linha][coluna] = "P"
+	exibirTabuleiros(newTab)
+>>>>>>> 2d76e86c70db98bb2e6bab3e221e14f3a5ba5a50
 def exibirTabuleiros(tabuleiro):
 	'''
 	Gera uma visualização do tabuleiro
